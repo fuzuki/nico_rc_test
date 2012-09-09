@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js"></script>
+
+<script type="text/javascript">
+
+function cameraMove(direction){
+ cgiName = "rcontrol.cgi";
+ new Ajax.Request('./cgi-bin/'+ cgiName +'?move='+direction,
+  {
+    method:'get',
+    onSuccess: function(transport){
+      var response = transport.responseText || "no response text";
+      var val = document.getElementById("sample").innerHTML = " "+ response;
+    },
+    onFailure: function(){ alert('Something went wrong...') }
+  });
+}
+
+function init(){
+  document.getElementById("cam").innerHTML = '<img src="http://'+ window.location.host + ':8090/test.mjpg">';
+}
+</script>
+
+<title>Radio Control Test</title>
+</head>
+<body onLoad="init()">
+<br>
+<div id="cam">  </div><br>
+
+<div id="sample">  </div><br>
+<form>
+<input type="button" value="turn left" onClick="cameraMove('q')"> 
+<input type="button" value="forward" onClick="cameraMove('w')">
+<input type="button" value="turn right" onClick="cameraMove('e')">
+<br>
+<input type="button" value="back left" onClick="cameraMove('a')">
+<input type="button" value="backward" onClick="cameraMove('s')">
+<input type="button" value="back right" onClick="cameraMove('d')">
+</form>
+<br>
+
+</body>
+</html>
